@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Logan Parody Jukebox</title>
+    <script src="jquery.min.js"></script>
+    <script src="howler.min.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="title">The Logan Parody Jukebox</div>
+        <div class="subtitle">Listen to all of your favorite songs from the Logan Parody Jukebox, or suggest a parody!
+        </div>
+
+        <table class="songs-table"></table>
+
+        <form class="suggestion">
+            <div class="suggestion-title">Request a parody!</div>
+            <div class="suggestion-subtitle">Enter the song details below as well as (optional) information about the
+                parody, if you want a specific theme.</div>
+
+            <label for="suggestion-songname">Song title</label>
+            <input id="suggestion-songname" type="text" placeholder="Song title" maxlength="100" autocomplete="off"
+                autocorrect="off" autocapitalize="off" spellcheck="false" required>
+
+            <label for="suggestion-artist">Original artist</label>
+            <input id="suggestion-artist" type="text" placeholder="Artist" maxlength="100" autocomplete="off"
+                autocorrect="off" autocapitalize="off" spellcheck="false" required>
+
+            <label for="suggestion-details">Parody details (optional)</label>
+            <textarea id="suggestion-details" placeholder="Parody details" autocomplete="off" autocorrect="off"
+                autocapitalize="off" spellcheck="false"></textarea>
+
+            <button type="submit">Submit</button>
+            <div class="suggestion-post-submit"></div>
+        </form>
+    </div>
+</body>
+
+</html>
