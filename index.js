@@ -40,20 +40,26 @@ $(() => {
         });
     });
 
+    var canSuggest = true;
     var suggestionPostTimeout = null;
+    const fadePost = (text) => {
+        if (suggestionPostTimeout) clearTimeout(suggestionPostTimeout);
+        $(".suggestion-post-submit").html(text).fadeIn(300);
+        suggestionPostTimeout = setTimeout(() => $(".suggestion-post-submit").fadeOut(300), 2000);
+    };
     $(".suggestion").on("submit", (e) => {
         e.preventDefault();
-        if (suggestionPostTimeout) clearTimeout(suggestionPostTimeout);
-        const title = $("#suggestion-songname").val().trim();
-        const artist = $("#suggestion-artist").val().trim();
-        const details = $("#suggestion-details").val().trim();
-        const notSpecified = "*(not specified)*";
-        const fade = (text) => {
-            $(".suggestion-post-submit").html(text).fadeIn(300);
-            suggestionPostTimeout = setTimeout(() => $(".suggestion-post-submit").fadeOut(300), 2000);
-        };
-        $.post("https://discord.com/api/webhooks/829189781756968991/1rDFLxqEE4LkMYJ0WQ8ohh0TsgZ_E7w6mJO0HhcOw-BjSEbWlG-gxdkOpQPlDzDhsCJH", { content: `<@527869303027007490> __**New Parody Request**__\n**Title:** ${title || notSpecified}\n**Artist:** ${artist || notSpecified}\n**Details:** ${details || notSpecified}` }).then(() => fade("Successfully submitted request.")).catch(() => fade("There was an error submitting your request. Please try again later."));
-        $(".suggestion")[0].reset();
+        if (canSuggest) {
+            const title = $("#suggestion-songname").val().trim();
+            const artist = $("#suggestion-artist").val().trim();
+            const details = $("#suggestion-details").val().trim();
+            const notSpecified = "*(not specified)*";
+            
+            $.post("https://discord.com/api/webhooks/829189781756968991/1rDFLxqEE4LkMYJ0WQ8ohh0TsgZ_E7w6mJO0HhcOw-BjSEbWlG-gxdkOpQPlDzDhsCJH", { content: `<@527869303027007490> __**New Parody Request**__\n**Title:** ${title || notSpecified}\n**Artist:** ${artist || notSpecified}\n**Details:** ${details || notSpecified}` }).then(() => fadePost("Successfully submitted request.")).catch(() => fadePost("There was an error submitting your request. Please try again later."));
+            $(".suggestion")[0].reset();
+            canSuggest = false;
+            setTimeout(() => canSuggest = true, 20000);
+        } else fadePost("Please wait before submitting another request.");
         return false;
     });
 });
